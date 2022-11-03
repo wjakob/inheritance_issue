@@ -10,7 +10,6 @@ static PyModuleDef my_module = {
 static PyType_Slot my_property_slots[] = {
     { Py_tp_base, NULL },
 #if FIX_ISSUE
-    { Py_tp_methods, NULL },
     { Py_tp_members, NULL },
 #endif
     { 0, NULL }
@@ -31,8 +30,7 @@ PyInit_inheritance_issue(void)
 
     my_property_slots[0].pfunc = &PyProperty_Type;
 #if FIX_ISSUE
-    my_property_slots[1].pfunc = PyType_GetSlot(&PyProperty_Type, Py_tp_methods);
-    my_property_slots[2].pfunc = PyType_GetSlot(&PyProperty_Type, Py_tp_members);
+    my_property_slots[1].pfunc = PyType_GetSlot(&PyProperty_Type, Py_tp_members);
 #endif
 
     PyObject *my_property = PyType_FromSpec(&my_property_spec);
